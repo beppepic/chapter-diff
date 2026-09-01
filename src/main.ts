@@ -1,4 +1,4 @@
-import { FileSystemAdapter, Notice, Plugin, TFile } from "obsidian";
+import { FileSystemAdapter, Notice, Plugin, TFile, WorkspaceLeaf } from "obsidian";
 import path from "node:path";
 import { CommitInfo, findRepoRoot, getFileHistory } from "./git";
 import { CommitPickerModal } from "./CommitPickerModal";
@@ -21,6 +21,7 @@ export default class ChapterDiffPlugin extends Plugin {
   }
 
   private async compareActiveFile(file: TFile): Promise<void> {
+    const sourceLeaf = this.app.workspace.getLeaf(false);
     const adapter = this.app.vault.adapter;
     if (!(adapter instanceof FileSystemAdapter)) {
       new Notice("Chapter diff requires a local vault on the desktop.");
@@ -50,14 +51,11 @@ export default class ChapterDiffPlugin extends Plugin {
     }
 
     new CommitPickerModal(this.app, history, (commit) => {
-      void this.openDiffView({ file, repoRoot, relPath, commit });
+      void this.openDiffView({ file, repoRoot, relPath, commit }, sourceLeaf);
     }).open();
   }
 
-  private async openDiffView(target: DiffTarget): Promise<void> {
-    const existing = this.app.workspace.getLeavesOfType(CHAPTER_DIFF_VIEW_TYPE);
-    const leaf = existing[0] ?? this.app.workspace.getLeaf("split", "vertical");
-
+  private async openDiffView(target: DiffTarget, leaf: WorkspaceLeaf): Promise<void> {
     await leaf.setViewState({ type: CHAPTER_DIFF_VIEW_TYPE, active: true });
     await this.app.workspace.revealLeaf(leaf);
 

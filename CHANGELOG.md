@@ -2,6 +2,15 @@
 
 All notable changes to Chapter Diff are documented in this file.
 
+## 0.3.0 — 2026-09-01
+
+- Opened Chapter Diff in the note's existing tab, with navigation back to the
+  note, instead of creating a side split.
+- Matched Obsidian Git's diff presentation with editor typography, line
+  numbers, red and green change highlighting, and a compact toolbar.
+- Styled collapsed unchanged ranges as clickable purple-accented bars that
+  report how many lines are hidden.
+
 ## 0.2.0 — 2026-09-01
 
 - Made the Working Tree column editable and automatically saved changes back

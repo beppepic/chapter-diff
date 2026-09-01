@@ -1,6 +1,6 @@
-import { ItemView, MarkdownView, Notice, TFile, setIcon } from "obsidian";
+import { ItemView, MarkdownView, Notice, TFile, WorkspaceLeaf, setIcon } from "obsidian";
 import { EditorState, Transaction } from "@codemirror/state";
-import { EditorView } from "@codemirror/view";
+import { EditorView, drawSelection, lineNumbers } from "@codemirror/view";
 import { MergeView } from "@codemirror/merge";
 import { CommitInfo, getFileAtRevision, getFileHistory } from "./git";
 import { CommitPickerModal } from "./CommitPickerModal";
@@ -17,11 +17,11 @@ export interface DiffTarget {
   commit: CommitInfo;
 }
 
-function readOnlyExtensions() {
+function editorExtensions() {
   return [
+    lineNumbers(),
+    drawSelection(),
     EditorView.lineWrapping,
-    EditorView.editable.of(false),
-    EditorState.readOnly.of(true),
     EditorView.theme({
       "&": { height: "100%" },
       ".cm-scroller": { overflow: "auto" },
@@ -31,7 +31,7 @@ function readOnlyExtensions() {
 
 function editableExtensions(onChange: (text: string) => void) {
   return [
-    EditorView.lineWrapping,
+    ...editorExtensions(),
     EditorView.updateListener.of((update) => {
       if (
         update.docChanged &&
@@ -39,10 +39,6 @@ function editableExtensions(onChange: (text: string) => void) {
       ) {
         onChange(update.state.doc.toString());
       }
-    }),
-    EditorView.theme({
-      "&": { height: "100%" },
-      ".cm-scroller": { overflow: "auto" },
     }),
   ];
 }
@@ -57,6 +53,11 @@ export class DiffView extends ItemView {
   private pendingSave: { file: TFile; text: string } | null = null;
   private ignoreNextModification = false;
   private refreshing = false;
+
+  constructor(leaf: WorkspaceLeaf) {
+    super(leaf);
+    this.navigation = true;
+  }
 
   getViewType(): string {
     return CHAPTER_DIFF_VIEW_TYPE;
@@ -194,10 +195,6 @@ export class DiffView extends ItemView {
       cls: "chapter-diff-commit",
       text: `${commit.shortHash} · ${commit.date} · ${commit.message}`,
     });
-    info.createSpan({
-      cls: "chapter-diff-mode",
-      text: "Selected revision (read-only)  ←  →  Working Tree (editable)",
-    });
 
     const actions = this.headerEl.createDiv({ cls: "chapter-diff-header-actions" });
 
@@ -217,9 +214,18 @@ export class DiffView extends ItemView {
   private renderMerge(oldText: string, newText: string): void {
     this.mergeView?.destroy();
     this.mergeContainerEl.empty();
+    this.mergeContainerEl.addClasses([
+      "cm-s-obsidian",
+      "mod-cm6",
+      "markdown-source-view",
+      "cm-content",
+    ]);
 
     this.mergeView = new MergeView({
-      a: { doc: oldText, extensions: readOnlyExtensions() },
+      a: {
+        doc: oldText,
+        extensions: [...editorExtensions(), EditorState.readOnly.of(true)],
+      },
       b: {
         doc: newText,
         extensions: editableExtensions((text) => this.scheduleSave(text)),

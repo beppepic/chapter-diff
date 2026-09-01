@@ -15,9 +15,11 @@ stays in sync.
 ## What it does
 
 - Lists the Git history of the active note.
-- Opens the selected past revision beside the live note.
+- Replaces the note's current tab with a two-column comparison, preserving
+  navigation back to the note.
 - Keeps the selected revision read-only and makes the Working Tree editable.
 - Highlights removed text in red and added text in green.
+- Collapses long unchanged ranges into clickable “unchanged lines” bars.
 - Saves edits made in the right-hand pane back to the note automatically.
 - Refreshes the comparison when the same note changes elsewhere in Obsidian.
 - Lets you switch revisions without closing the diff pane.
@@ -60,13 +62,13 @@ Compare current file with a past revision** from the Command Palette.
 2. Run **Chapter Diff: Compare current file with a past revision** from the
    Command Palette.
 3. Pick a commit from the file's history.
-4. A new pane opens to the side showing that commit's content on the left
+4. The current tab becomes a two-column diff showing that commit on the left
    and the file's current content on the right, with changes highlighted.
 5. Edit the Working Tree directly in the right-hand column. Changes are saved
    to the note automatically. You can also keep writing in a normal editor
    tab, and the diff updates from there.
 6. Use the panel's toolbar to switch to a different revision or force a
-   refresh.
+   refresh. Use Obsidian's back button to return to the normal note view.
 
 ## How it works
 

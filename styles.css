@@ -1,4 +1,8 @@
 .chapter-diff-view {
+  --chapter-diff-delete-bg: #ff475040;
+  --chapter-diff-delete-highlight: #96050a75;
+  --chapter-diff-insert-bg: #68d36840;
+  --chapter-diff-insert-highlight: #23c02350;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -9,15 +13,16 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--size-4-2);
-  padding: var(--size-4-2) var(--size-4-3);
+  min-height: var(--header-height);
+  padding: var(--size-4-1) var(--size-4-3);
   border-bottom: 1px solid var(--background-modifier-border);
   flex-shrink: 0;
 }
 
 .chapter-diff-header-info {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: baseline;
+  gap: var(--size-4-2);
   min-width: 0;
 }
 
@@ -27,14 +32,6 @@
 
 .chapter-diff-commit {
   color: var(--text-muted);
-  font-size: var(--font-ui-smaller);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.chapter-diff-mode {
-  color: var(--text-faint);
   font-size: var(--font-ui-smaller);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -77,4 +74,67 @@
 
 .chapter-diff-merge .cm-editor {
   height: 100%;
+}
+
+.chapter-diff-merge .cm-scroller {
+  font-family: var(--font-text);
+  font-size: var(--font-text-size);
+  line-height: var(--line-height-normal);
+}
+
+.chapter-diff-merge .cm-content {
+  padding-block: var(--file-margins);
+}
+
+.chapter-diff-merge .cm-line {
+  padding-inline: var(--size-4-2);
+}
+
+.chapter-diff-merge .cm-gutters {
+  background: var(--background-primary);
+  border-inline-end: none;
+  color: var(--text-faint);
+}
+
+.chapter-diff-merge .cm-lineNumbers .cm-gutterElement {
+  min-width: 3ch;
+  padding-inline: var(--size-4-1);
+}
+
+.chapter-diff-merge .cm-merge-a .cm-changedLine {
+  background-color: var(--chapter-diff-delete-bg);
+}
+
+.chapter-diff-merge .cm-merge-b .cm-changedLine {
+  background-color: var(--chapter-diff-insert-bg);
+}
+
+.chapter-diff-merge .cm-merge-a .cm-changedText {
+  background: var(--chapter-diff-delete-highlight);
+}
+
+.chapter-diff-merge .cm-merge-b .cm-changedText {
+  background: var(--chapter-diff-insert-highlight);
+}
+
+.chapter-diff-merge .cm-merge-a .cm-changedLineGutter {
+  background: var(--color-red);
+}
+
+.chapter-diff-merge .cm-merge-b .cm-changedLineGutter {
+  background: var(--color-green);
+}
+
+.chapter-diff-merge .cm-collapsedLines {
+  background: var(--interactive-normal);
+  border-radius: var(--radius-m);
+  color: var(--text-accent);
+  font-family: var(--font-interface);
+  font-size: var(--font-small);
+  padding: var(--size-4-1);
+}
+
+.chapter-diff-merge .cm-collapsedLines:hover {
+  background: var(--interactive-hover);
+  color: var(--text-accent-hover);
 }

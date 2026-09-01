@@ -1,7 +1,7 @@
 {
   "id": "chapter-diff",
   "name": "Chapter Diff",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "minAppVersion": "1.7.2",
   "description": "Compare the working version of a note with any past Git commit, side by side with inline diff highlighting.",
   "author": "Beppe",
