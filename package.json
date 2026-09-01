@@ -1,6 +1,6 @@
 {
   "name": "obsidian-chapter-diff",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Compare the working version of an Obsidian note with any past Git commit, side by side with inline diff highlighting.",
   "main": "main.js",
   "type": "module",

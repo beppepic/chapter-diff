@@ -1,8 +1,4 @@
 .chapter-diff-view {
-  --chapter-diff-delete-bg: #ff475040;
-  --chapter-diff-delete-highlight: #96050a75;
-  --chapter-diff-insert-bg: #68d36840;
-  --chapter-diff-insert-highlight: #23c02350;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -76,60 +72,18 @@
   height: 100%;
 }
 
-.chapter-diff-merge .cm-scroller {
-  font-family: var(--font-text);
-  font-size: var(--font-text-size);
-  line-height: var(--line-height-normal);
+.chapter-diff-merge .cm-deletedLine .cm-changedText {
+  background-color: #ee443330;
 }
 
-.chapter-diff-merge .cm-content {
-  padding-block: var(--file-margins);
-}
-
-.chapter-diff-merge .cm-line {
-  padding-inline: var(--size-4-2);
-}
-
-.chapter-diff-merge .cm-gutters {
-  background: var(--background-primary);
-  border-inline-end: none;
-  color: var(--text-faint);
-}
-
-.chapter-diff-merge .cm-lineNumbers .cm-gutterElement {
-  min-width: 3ch;
-  padding-inline: var(--size-4-1);
-}
-
-.chapter-diff-merge .cm-merge-a .cm-changedLine {
-  background-color: var(--chapter-diff-delete-bg);
-}
-
-.chapter-diff-merge .cm-merge-b .cm-changedLine {
-  background-color: var(--chapter-diff-insert-bg);
-}
-
-.chapter-diff-merge .cm-merge-a .cm-changedText {
-  background: var(--chapter-diff-delete-highlight);
-}
-
-.chapter-diff-merge .cm-merge-b .cm-changedText {
-  background: var(--chapter-diff-insert-highlight);
-}
-
-.chapter-diff-merge .cm-merge-a .cm-changedLineGutter {
-  background: var(--color-red);
-}
-
-.chapter-diff-merge .cm-merge-b .cm-changedLineGutter {
-  background: var(--color-green);
+.chapter-diff-merge .cm-insertedLine .cm-changedText {
+  background-color: #22bb2230;
 }
 
 .chapter-diff-merge .cm-collapsedLines {
   background: var(--interactive-normal);
   border-radius: var(--radius-m);
   color: var(--text-accent);
-  font-family: var(--font-interface);
   font-size: var(--font-small);
   padding: var(--size-4-1);
 }

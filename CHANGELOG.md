@@ -2,6 +2,13 @@
 
 All notable changes to Chapter Diff are documented in this file.
 
+## 0.3.1 — 2026-09-01
+
+- Matched Obsidian Git's split diff highlighting more closely with subtle
+  line tints and translucent word-level red and green highlights.
+- Removed custom typography, spacing, and gutter overrides so the diff uses
+  Obsidian's native editor presentation.
+
 ## 0.3.0 — 2026-09-01
 
 - Opened Chapter Diff in the note's existing tab, with navigation back to the
