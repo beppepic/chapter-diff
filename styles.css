@@ -33,6 +33,14 @@
   white-space: nowrap;
 }
 
+.chapter-diff-mode {
+  color: var(--text-faint);
+  font-size: var(--font-ui-smaller);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .chapter-diff-header-actions {
   display: flex;
   gap: var(--size-4-1);

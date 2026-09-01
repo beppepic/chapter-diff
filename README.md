@@ -5,9 +5,10 @@ any earlier version saved in Git. The past revision appears on the left, the
 live note appears on the right, and additions and removals are highlighted
 inline.
 
-It is designed for long-form writing: keep drafting in your normal editor
-tab while a panel next to it shows exactly what changed since an earlier
-commit of the same chapter.
+It is designed for long-form writing: choose the version you want on the
+left, then continue drafting directly in the editable Working Tree on the
+right. You can also keep the note open in a normal editor tab; the comparison
+stays in sync.
 
 ![Chapter Diff comparing a first draft with the current chapter](assets/chapter-diff-preview.png)
 
@@ -15,13 +16,15 @@ commit of the same chapter.
 
 - Lists the Git history of the active note.
 - Opens the selected past revision beside the live note.
+- Keeps the selected revision read-only and makes the Working Tree editable.
 - Highlights removed text in red and added text in green.
-- Refreshes the comparison automatically while you edit.
+- Saves edits made in the right-hand pane back to the note automatically.
+- Refreshes the comparison when the same note changes elsewhere in Obsidian.
 - Lets you switch revisions without closing the diff pane.
 - Continues to find older versions when a note was renamed in Git.
 
-Chapter Diff only reads history. It never stages, commits, pushes, or changes
-your Git repository.
+Chapter Diff writes only the note you edit in its right-hand pane. It never
+stages, commits, pushes, switches branches, or rewrites Git history.
 
 ## Requirements
 
@@ -59,18 +62,18 @@ Compare current file with a past revision** from the Command Palette.
 3. Pick a commit from the file's history.
 4. A new pane opens to the side showing that commit's content on the left
    and the file's current content on the right, with changes highlighted.
-5. Keep writing in your normal editor tab — the diff panel refreshes
-   automatically as you save or edit.
+5. Edit the Working Tree directly in the right-hand column. Changes are saved
+   to the note automatically. You can also keep writing in a normal editor
+   tab, and the diff updates from there.
 6. Use the panel's toolbar to switch to a different revision or force a
    refresh.
 
 ## How it works
 
-Chapter Diff does not read or write Git state itself beyond `git log` and
-`git show` for the active file — it never stages, commits, or pushes
-anything. The "current" side of the comparison is read directly from the
-Obsidian vault, not from Git, so it always reflects unsaved edits exactly
-as your normal editor tab does.
+Chapter Diff reads Git history with `git log` and `git show`; it never stages,
+commits, or pushes anything. The "current" side of the comparison is the
+actual note in the Obsidian vault. Editing the right-hand column updates that
+note, so Git sees the result as an ordinary Working Tree change.
 
 ## Development
 

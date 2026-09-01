@@ -2,6 +2,14 @@
 
 All notable changes to Chapter Diff are documented in this file.
 
+## 0.2.0 — 2026-09-01
+
+- Made the Working Tree column editable and automatically saved changes back
+  to the note, matching Obsidian Git's editable diff workflow while allowing
+  any historical revision on the left.
+- Kept external note edits synchronized without rebuilding the entire diff
+  view or moving the cursor.
+
 ## 0.1.0 — 2026-09-01
 
 - Initial release.
