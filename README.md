@@ -1,13 +1,27 @@
 # Chapter Diff
 
-Chapter Diff compares the note you are currently editing with any past Git
-commit, side by side, with inline diff highlighting — the "Working
-Tree/Live" comparison familiar from IDEs like Visual Studio, brought into
-Obsidian.
+Chapter Diff shows exactly what changed between the note you are editing and
+any earlier version saved in Git. The past revision appears on the left, the
+live note appears on the right, and additions and removals are highlighted
+inline.
 
 It is designed for long-form writing: keep drafting in your normal editor
 tab while a panel next to it shows exactly what changed since an earlier
 commit of the same chapter.
+
+![Chapter Diff comparing a first draft with the current chapter](assets/chapter-diff-preview.png)
+
+## What it does
+
+- Lists the Git history of the active note.
+- Opens the selected past revision beside the live note.
+- Highlights removed text in red and added text in green.
+- Refreshes the comparison automatically while you edit.
+- Lets you switch revisions without closing the diff pane.
+- Continues to find older versions when a note was renamed in Git.
+
+Chapter Diff only reads history. It never stages, commits, pushes, or changes
+your Git repository.
 
 ## Requirements
 
@@ -18,6 +32,24 @@ commit of the same chapter.
   internals.
 - Desktop only. Reading arbitrary commits requires Node's `child_process`,
   which is not available on mobile.
+
+The Obsidian Git plugin is optional. It is a convenient way to create and sync
+commits, but Chapter Diff talks directly to the Git installation on your
+computer and does not depend on Obsidian Git.
+
+## Installation with BRAT
+
+1. Install and enable [BRAT](https://github.com/TfTHacker/obsidian42-brat).
+2. Open **Settings → BRAT**.
+3. Select **Add beta plugin**.
+4. Enter `beppepic/chapter-diff`.
+5. Keep **Enable after installing** selected and choose **Add plugin**.
+
+You can also run **BRAT: Plugins: Add a beta plugin for testing** from the
+Command Palette and enter the same repository identifier.
+
+After installation, open a note with Git history and run **Chapter Diff:
+Compare current file with a past revision** from the Command Palette.
 
 ## Usage
 
@@ -52,3 +84,10 @@ pnpm lint    # eslint
 
 Symlink (or copy) `main.js`, `manifest.json`, and `styles.css` into
 `<vault>/.obsidian/plugins/chapter-diff/` to test in a real vault.
+
+## Manual installation
+
+Download `main.js`, `manifest.json`, and `styles.css` from the
+[latest release](https://github.com/beppepic/chapter-diff/releases/latest).
+Place them in `<vault>/.obsidian/plugins/chapter-diff/`, reload Obsidian, and
+enable **Chapter Diff** under **Settings → Community plugins**.
