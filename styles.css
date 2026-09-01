@@ -1,0 +1,72 @@
+.chapter-diff-view {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chapter-diff-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--size-4-2);
+  padding: var(--size-4-2) var(--size-4-3);
+  border-bottom: 1px solid var(--background-modifier-border);
+  flex-shrink: 0;
+}
+
+.chapter-diff-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.chapter-diff-file {
+  font-weight: var(--font-semibold);
+}
+
+.chapter-diff-commit {
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chapter-diff-header-actions {
+  display: flex;
+  gap: var(--size-4-1);
+  flex-shrink: 0;
+}
+
+.chapter-diff-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--size-4-1);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-s);
+  color: var(--icon-color);
+  cursor: pointer;
+  box-shadow: none;
+}
+
+.chapter-diff-btn:hover {
+  background: var(--background-modifier-hover);
+}
+
+.chapter-diff-merge {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.chapter-diff-merge .cm-mergeView,
+.chapter-diff-merge .cm-mergeViewEditors {
+  height: 100%;
+}
+
+.chapter-diff-merge .cm-editor {
+  height: 100%;
+}
