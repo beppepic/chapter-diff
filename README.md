@@ -28,6 +28,16 @@ stays in sync.
 Chapter Diff writes only the note you edit in its right-hand pane. It never
 stages, commits, pushes, switches branches, or rewrites Git history.
 
+## Command and suggested hotkey
+
+Chapter Diff does not assign a default hotkey, so it cannot overwrite an
+existing shortcut. Open **Settings → Hotkeys**, search for **Chapter Diff**,
+and assign the shortcut if you want it.
+
+| Command | What it does | Suggested macOS hotkey |
+| --- | --- | --- |
+| **Compare current file with a past revision** | Opens the commit picker for the active note, then replaces its tab with an editable split diff. | `⌥⇧⌘D` |
+
 ## Requirements
 
 - A desktop vault that is (or lives inside) a Git working tree — for
