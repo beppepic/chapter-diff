@@ -23,14 +23,14 @@ export default class ChapterDiffPlugin extends Plugin {
   private async compareActiveFile(file: TFile): Promise<void> {
     const adapter = this.app.vault.adapter;
     if (!(adapter instanceof FileSystemAdapter)) {
-      new Notice("Chapter Diff requires a local vault on the desktop.");
+      new Notice("Chapter diff requires a local vault on the desktop.");
       return;
     }
 
     const absoluteFilePath = adapter.getFullPath(file.path);
     const repoRoot = await findRepoRoot(path.dirname(absoluteFilePath));
     if (!repoRoot) {
-      new Notice("Chapter Diff: this file is not inside a Git repository.");
+      new Notice("Chapter diff: this file is not inside a Git repository.");
       return;
     }
 
@@ -40,12 +40,12 @@ export default class ChapterDiffPlugin extends Plugin {
     try {
       history = await getFileHistory(repoRoot, relPath);
     } catch (error) {
-      new Notice("Chapter Diff: failed to read commit history.");
+      new Notice("Chapter diff: failed to read commit history.");
       console.error(error);
       return;
     }
     if (history.length === 0) {
-      new Notice("Chapter Diff: no commits found for this file.");
+      new Notice("Chapter diff: no commits found for this file.");
       return;
     }
 
@@ -59,7 +59,7 @@ export default class ChapterDiffPlugin extends Plugin {
     const leaf = existing[0] ?? this.app.workspace.getLeaf("split", "vertical");
 
     await leaf.setViewState({ type: CHAPTER_DIFF_VIEW_TYPE, active: true });
-    this.app.workspace.revealLeaf(leaf);
+    await this.app.workspace.revealLeaf(leaf);
 
     const view = leaf.view;
     if (view instanceof DiffView) {

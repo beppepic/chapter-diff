@@ -5,6 +5,7 @@ export interface CommitInfo {
   shortHash: string;
   date: string;
   message: string;
+  path: string;
 }
 
 const RECORD_SEP = "\x1e";
@@ -31,11 +32,21 @@ export async function findRepoRoot(startPath: string): Promise<string | null> {
 export function parseLogOutput(output: string): CommitInfo[] {
   return output
     .split(RECORD_SEP)
-    .map((record) => record.trim())
+    .map((record) => record.replace(/^\0+|\0+$/g, ""))
     .filter((record) => record.length > 0)
-    .map((record) => {
-      const [hash, shortHash, date, message] = record.split(UNIT_SEP);
-      return { hash, shortHash, date, message } as CommitInfo;
+    .flatMap((record) => {
+      const [metadata = "", ...nameStatusFields] = record.split("\0");
+      const [hash, shortHash, date, message] = metadata.split(UNIT_SEP);
+      if (!hash || !shortHash || !date || message === undefined) return [];
+
+      const fields = nameStatusFields.filter((field) => field.length > 0);
+      const status = fields[0]?.trim();
+      if (!status || status.startsWith("D")) return [];
+
+      const path = status.startsWith("R") || status.startsWith("C") ? fields[2] : fields[1];
+      if (!path) return [];
+
+      return [{ hash, shortHash, date, message, path }];
     });
 }
 
@@ -49,10 +60,12 @@ export async function getFileHistory(
   maxCount = 200,
 ): Promise<CommitInfo[]> {
   const git = simpleGit(repoRoot);
-  const format = `%H${UNIT_SEP}%h${UNIT_SEP}%ad${UNIT_SEP}%s${RECORD_SEP}`;
+  const format = `${RECORD_SEP}%H${UNIT_SEP}%h${UNIT_SEP}%ad${UNIT_SEP}%s%x00`;
   const output = await git.raw([
     "log",
+    "-z",
     "--follow",
+    "--name-status",
     `--max-count=${maxCount}`,
     "--date=format:%Y-%m-%d %H:%M",
     `--pretty=format:${format}`,
@@ -70,9 +83,9 @@ export async function getFileHistory(
  */
 export async function getFileAtRevision(
   repoRoot: string,
-  relPath: string,
+  filePath: string,
   hash: string,
 ): Promise<string> {
   const git = simpleGit(repoRoot);
-  return git.show([`${hash}:${relPath}`]);
+  return git.show([`${hash}:${filePath}`]);
 }

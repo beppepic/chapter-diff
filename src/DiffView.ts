@@ -1,4 +1,4 @@
-import { ItemView, Notice, TFile, setIcon } from "obsidian";
+import { ItemView, MarkdownView, Notice, TFile, setIcon } from "obsidian";
 import { EditorState } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import { MergeView } from "@codemirror/merge";
@@ -108,12 +108,12 @@ export class DiffView extends ItemView {
     try {
       history = await getFileHistory(repoRoot, relPath);
     } catch (error) {
-      new Notice("Chapter Diff: failed to read commit history.");
+      new Notice("Chapter diff: failed to read commit history.");
       console.error(error);
       return;
     }
     if (history.length === 0) {
-      new Notice("Chapter Diff: no commit history for this file.");
+      new Notice("Chapter diff: no commit history for this file.");
       return;
     }
     new CommitPickerModal(this.app, history, (commit) => void this.changeRevision(commit)).open();
@@ -125,8 +125,8 @@ export class DiffView extends ItemView {
     this.headerEl.empty();
 
     const info = this.headerEl.createDiv({ cls: "chapter-diff-header-info" });
-    info.createEl("span", { cls: "chapter-diff-file", text: file.basename });
-    info.createEl("span", {
+    info.createSpan({ cls: "chapter-diff-file", text: file.basename });
+    info.createSpan({
       cls: "chapter-diff-commit",
       text: `${commit.shortHash} · ${commit.date} · ${commit.message}`,
     });
@@ -158,20 +158,33 @@ export class DiffView extends ItemView {
     });
   }
 
+  private async readCurrentText(file: TFile): Promise<string> {
+    const editorLeaf = this.app.workspace.getLeavesOfType("markdown").find((leaf) => {
+      const view = leaf.view;
+      return view instanceof MarkdownView && view.file?.path === file.path;
+    });
+
+    if (editorLeaf?.view instanceof MarkdownView) {
+      return editorLeaf.view.editor.getValue();
+    }
+
+    return this.app.vault.cachedRead(file);
+  }
+
   private async render(): Promise<void> {
     if (!this.target) return;
-    const { file, repoRoot, relPath, commit } = this.target;
+    const { file, repoRoot, commit } = this.target;
 
     let oldText: string;
     try {
-      oldText = await getFileAtRevision(repoRoot, relPath, commit.hash);
+      oldText = await getFileAtRevision(repoRoot, commit.path, commit.hash);
     } catch (error) {
       new Notice(`Chapter Diff: could not read "${file.basename}" at ${commit.shortHash}.`);
       console.error(error);
       return;
     }
 
-    const newText = await this.app.vault.cachedRead(file);
+    const newText = await this.readCurrentText(file);
 
     this.renderHeader();
     this.renderMerge(oldText, newText);
